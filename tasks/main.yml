@@ -1,0 +1,9 @@
+---
+- include: packages.yml
+  become: true
+
+- include: ssh.yml
+  become: true
+
+- include: duplicity_backup.yml
+  become: true

@@ -1,0 +1,53 @@
+---
+- name: Install Duplicity Repo
+  apt_repository:
+    repo: "ppa:duplicity-team/ppa"
+  tags:
+    - apt
+    - backup
+    - packages
+
+- name: Purge paramiko package
+  apt:
+    pkg: "{{ item }}"
+    state: absent
+    purge: yes
+  with_items:
+    - python-paramiko
+  tags:
+    - apt
+    - backup
+    - packages
+
+- name: Install base packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - python-pip
+    - virtualenv
+  tags:
+    - apt
+    - backup
+    - packages
+
+- name: Pip install 
+  pip:
+    name: paramiko
+  tags:
+    - pip
+    - backup
+    - packages
+
+- name: Install base packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - borgbackup
+    - sshfs
+    - duplicity
+  tags:
+    - apt
+    - backup
+    - packages

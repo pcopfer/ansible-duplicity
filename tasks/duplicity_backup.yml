@@ -1,0 +1,60 @@
+---
+- name: Copy Backup script
+  copy:
+    src: backup_dup.sh
+    dest: /root/
+    mode: 0700
+  tags:
+    - copy
+    - backup
+
+- name: Template Backuprc scripts
+  template:
+    src: backuprc
+    dest: "/root/.backuprc_{{ item.name }}"
+    mode: 0700
+  with_items: "{{ duplicity_backuplocation }}"
+  tags:
+    - copy
+    - backup
+
+- name: Check if location for backup config files exist
+  file:
+    path: /root/backuppaths
+    state: directory
+    mode: 0700
+  tags:
+    - backup
+
+- name: Check if location for pre backup scripts exist
+  file:
+    path: /root/pre-backup-scripts
+    state: directory
+    mode: 0700
+  tags:
+    - backup
+
+- name: Add env Variable
+  cron:
+    name: SHELL
+    env: yes
+    value: /bin/bash
+    cron_file: "ansible_backup_{{ item.name }}"
+    user: root
+  with_items: "{{ duplicity_backuplocation }}"
+  tags:
+    - backup
+    - cron
+
+- name: Create Cronjob for Backup
+  cron:
+    name: Cronjob for Backup
+    minute:  "{{ ( [inventory_hostname,item.name] | join | hash | list | map('int',0,16) | sum ) % 60 }}"
+    hour: "{{ ( [inventory_hostname,item.name] | join | hash | list | map('int',0,16) | sum ) % 24 }}"
+    user: root
+    job: "/root/backup_dup.sh /root/.backuprc_{{ item.name }}"
+    cron_file: "ansible_backup_{{ item.name }}"
+  with_items: "{{ duplicity_backuplocation }}"
+  tags:
+    - backup
+    - cron

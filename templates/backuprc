@@ -1,0 +1,2 @@
+BACKUP_CREDENTIALS="{{ item.credentials }}"
+BACKUP_PASSWORD="{{ item.password }}"
