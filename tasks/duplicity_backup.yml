@@ -11,9 +11,8 @@
 - name: Template Backuprc scripts
   template:
     src: backuprc
-    dest: "/root/.backuprc_{{ item.name }}"
+    dest: "/root/.backuprc_duplicity"
     mode: 0700
-  with_items: "{{ duplicity_backuplocation }}"
   tags:
     - copy
     - backup
@@ -39,9 +38,8 @@
     name: SHELL
     env: yes
     value: /bin/bash
-    cron_file: "ansible_backup_{{ item.name }}"
+    cron_file: "ansible_backup_duplicity"
     user: root
-  with_items: "{{ duplicity_backuplocation }}"
   tags:
     - backup
     - cron
@@ -49,12 +47,11 @@
 - name: Create Cronjob for Backup
   cron:
     name: Cronjob for Backup
-    minute:  "{{ ( [inventory_hostname,item.name] | join | hash | list | map('int',0,16) | sum ) % 60 }}"
-    hour: "{{ ( [inventory_hostname,item.name] | join | hash | list | map('int',0,16) | sum ) % 24 }}"
+    minute:  "{{ ( [inventory_hostname,duplicity] | join | hash | list | map('int',0,16) | sum ) % 60 }}"
+    hour: "{{ ( [inventory_hostname,duplicity] | join | hash | list | map('int',0,16) | sum ) % 24 }}"
     user: root
-    job: "/root/backup_dup.sh /root/.backuprc_{{ item.name }}"
-    cron_file: "ansible_backup_{{ item.name }}"
-  with_items: "{{ duplicity_backuplocation }}"
+    job: "/root/backup_dup.sh /root/.backuprc_duplicity"
+    cron_file: "ansible_backup_duplicity"
   tags:
     - backup
     - cron

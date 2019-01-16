@@ -44,8 +44,6 @@
     pkg: "{{ item }}"
     state: latest
   with_items:
-    - borgbackup
-    - sshfs
     - duplicity
   tags:
     - apt

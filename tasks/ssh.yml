@@ -8,36 +8,19 @@
     - backup
     - ssh
 
-- name: copy ssh private key for Backuplocation
+- name: copy ssh private key for Backuplocations
   copy:
-    content: "{{ ssh_private_key_vault }}"
+    content: "{{ duplicity_priv_ssh_key }}"
     dest: /root/.ssh/id_rsa
     mode: 0600
   tags:
     - backup
     - ssh
 
-- name: Remove Backuplocation to known_hosts
+- name: Add public host keys of Backuplocations to known_hosts
   known_hosts:
-    name: "{{ item.name }}"
-    key: "{{ item.key }}"
-    state: absent
-  with_items:
-    - name: backup.pcopfer.de
-      key: "{{ lookup('file', 'backup.pcopfer.de.pub') }}"
-  tags:
-    - backup
-    - ssh
-
-- name: Add Backuplocation to known_hosts
-  known_hosts:
-    name: "{{ item.name }}"
-    key: "{{ item.key }}"
-  with_items:
-    - name: u152030.your-backup.de
-      key: "{{ lookup('file', 'u152030.your-backup.de') }}"
-    - name: backup.pcopfer.de
-      key: "{{ lookup('file', 'backup.pcopfer.de_neu.pub') }}"
+    name: "{{ duplicity_target_domain }}"
+    key: "{{ duplicity_target_pub_host_key }}"
   tags:
     - backup
     - ssh
