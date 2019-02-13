@@ -10,7 +10,6 @@
 - name: Purge paramiko package
   apt:
     name: "{{ packages }}"
-    state: present
     state: absent
     purge: yes
   vars:
