@@ -9,10 +9,12 @@
 
 - name: Purge paramiko package
   apt:
-    pkg: "{{ item }}"
+    name: "{{ packages }}"
+    state: present
     state: absent
     purge: yes
-  with_items:
+  vars:
+    packages:      
     - python-paramiko
   tags:
     - apt
@@ -21,9 +23,10 @@
 
 - name: Install base packages
   apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:      
     - python-pip
     - virtualenv
   tags:
@@ -41,9 +44,10 @@
 
 - name: Install base packages
   apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:      
     - duplicity
   tags:
     - apt
