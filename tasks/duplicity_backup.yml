@@ -47,8 +47,8 @@
 - name: Create Cronjob for Backup
   cron:
     name: Cronjob for Backup
-    minute:  "{{ ( [inventory_hostname,duplicity] | join | hash | list | map('int',0,16) | sum ) % 60 }}"
-    hour: "{{ ( [inventory_hostname,duplicity] | join | hash | list | map('int',0,16) | sum ) % 24 }}"
+    minute:  "{{ ( [inventory_hostname] | join | hash | list | map('int',0,16) | sum ) % 60 }}"
+    hour: "{{ ( [inventory_hostname] | join | hash | list | map('int',0,16) | sum ) % 24 }}"
     user: root
     job: "/root/backup_dup.sh /root/.backuprc_duplicity"
     cron_file: "ansible_backup_duplicity"
