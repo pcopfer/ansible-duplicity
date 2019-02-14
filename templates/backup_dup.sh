@@ -38,10 +38,10 @@ BN=`basename $line`
 {% if duplicity_scheme == "rsync" %}
 ssh $BACKUP_SSH mkdir -p $BACKUP_PATH
 {% endif %}
-duplicity incremental --full-if-older-than 1M $line $BACKUP_CREDENTIALS/$HN/$BN
+duplicity incremental --full-if-older-than 1M $line $BACKUP_CREDENTIALS$HN/$BN
 rc=$?
-duplicity remove-all-inc-of-but-n-full 2 --force $BACKUP_CREDENTIALS/$HN/$BN
-duplicity remove-all-but-n-full 4 --force $BACKUP_CREDENTIALS/$HN/$BN
+duplicity remove-all-inc-of-but-n-full 2 --force $BACKUP_CREDENTIALS$HN/$BN
+duplicity remove-all-but-n-full 4 --force $BACKUP_CREDENTIALS$HN/$BN
 done
 unset PASSPHRASE
 exit $rc
