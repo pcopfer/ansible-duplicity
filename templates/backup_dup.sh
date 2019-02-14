@@ -36,7 +36,7 @@ cat /root/backuppaths/*.conf | while read line
 do
 BN=`basename $line`
 {% if duplicity_scheme == "rsync" %}
-ssh $BACKUP_SSH mkdir -p $BACKUP_PATH
+ssh $BACKUP_SSH mkdir -p $BACKUP_PATH$HN/$BN
 {% endif %}
 duplicity incremental --full-if-older-than 1M $line $BACKUP_CREDENTIALS$HN/$BN
 rc=$?
