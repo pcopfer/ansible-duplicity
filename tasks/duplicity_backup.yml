@@ -1,6 +1,6 @@
 ---
 - name: Copy Backup script
-  copy:
+  template:
     src: backup_dup.sh
     dest: /root/
     mode: 0700
@@ -8,7 +8,7 @@
     - copy
     - backup
 
-- name: Template Backuprc scripts
+- name: Template Backuprc file
   template:
     src: backuprc
     dest: "/root/.backuprc_duplicity"

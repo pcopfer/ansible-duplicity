@@ -1,2 +1,4 @@
-BACKUP_CREDENTIALS="{{ duplicity_target_url }}"
+BACKUP_CREDENTIALS="{{ duplicity_scheme }}://{% if duplicity_target_user is defined %}{{duplicity_target_user}}@{% endif %}{{ duplicity_target_domain }}/{{ duplicity_target_path }}"
 BACKUP_PASSWORD="{{ duplicity_backup_password }}"
+BACKUP_SSH="{% if duplicity_target_user is defined %}{{duplicity_target_user}}@{% endif %}{{ duplicity_target_domain }}"
+BACKUP_PATH="{{ duplicity_target_path }}"
