@@ -35,7 +35,11 @@
 
 - name: Pip install 
   pip:
-    name: paramiko
+    name: "{{ packages }}"
+  vars:
+    packages:      
+    - setuptools
+    - paramiko
   tags:
     - pip
     - backup
