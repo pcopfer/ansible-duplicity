@@ -1,12 +1,4 @@
 ---
-- name: Install Duplicity Repo
-  apt_repository:
-    repo: "ppa:duplicity-team/ppa"
-  tags:
-    - apt
-    - backup
-    - packages
-
 - name: Install base packages
   apt:
     name: "{{ packages }}"
