@@ -26,7 +26,7 @@ CONFIG=$1
 # run scripts in /root/pre-backup-scripts when directory exists
 #
 if [ -d "/root/pre-backup-scripts" ]; then
-	run-parts --regex '.sh$' /root/pre-backup-scripts
+	run-parts -v --regex '.sh$' /root/pre-backup-scripts
 fi
 
 export PASSPHRASE=$BACKUP_PASSWORD
@@ -34,6 +34,7 @@ HN=`hostname`
 
 cat /root/backuppaths/*.conf | while read line 
 do
+echo $line
 BN=`basename $line`
 {% if duplicity_scheme == "rsync" %}
 ssh -n $BACKUP_SSH mkdir -p $BACKUP_PATH$HN/$BN
